@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Undangan Spesial</title>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        font-family: 'Poppins', sans-serif;
+        background: #3e2a19;
+        color: #f5e9d4;
+    }
+
+    .slide {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        transition: left 1s ease-in-out;
+    }
+
+    .active {
+        left: 0;
+    }
+
+    .image, .video-box {
+        width: 70%;
+        max-height: 70%;
+        border-radius: 20px;
+        object-fit: cover;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        animation: zoomIn 1.8s ease;
+    }
+
+    h1, p {
+        font-family: 'Playfair Display', serif;
+        animation: fadeIn 1.8s ease;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes zoomIn {
+        from {transform: scale(0.8); opacity: 0;}
+        to {transform: scale(1); opacity: 1;}
+    }
+
+    /* Password */
+    #passwordScreen {
+        position: fixed;
+        z-index: 9999;
+        width: 100vw;
+        height: 100vh;
+        background: #2c1a0d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: #f5e9d4;
+    }
+
+    input {
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: none;
+        margin-top: 10px;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 10px 25px;
+        background: #b08a5a;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        color: white;
+        cursor: pointer;
+    }
+
+    .music-icon {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        font-size: 32px;
+        cursor: pointer;
+        animation: spin 4s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {transform: rotate(0);}
+        100% {transform: rotate(360deg);}
+    }
+</style>
+</head>
+<body>
+
+<!-- Musik -->
+<audio id="bgmusic" loop>
+    <source src="musik.mp3" type="audio/mpeg">
+</audio>
+<div class="music-icon" onclick="toggleMusic()">🎵</div>
+
+<!-- Password -->
+<div id="passwordScreen">
+    <h1>Masukkan Password</h1>
+    <p>Password: <b>11122004</b></p>
+    <input type="password" id="passwordInput" placeholder="•••••••">
+    <button onclick="checkPassword()">Masuk</button>
+</div>
+
+<!-- SLIDE 1 -->
+<div class="slide active" id="s1">
+    <h1>Welcome to a Special Moment</h1>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide" id="s2">
+    <h1>Sorry for Saying This Late</h1>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide" id="s3">
+    <h1>Happy Birthday, Ammi</h1>
+    <img src="foto1.jpg" class="image">
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide" id="s4">
+    <h1>pasti kesel sekalimo tunggu ucapan kuu</h1>
+    <img src="foto2.jpg" class="image">
+</div>
+
+<!-- SLIDE 5 — VIDEO -->
+<div class="slide" id="s5">
+    <h1>Prayers & Warm Wishes</h1>
+    <p>May blessings and peace follow you everywhere.</p>
+
+    <video class="video-box" controls>
+        <source src="video1.mp4" type="video/mp4">
+    </video>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide" id="s6">
+    <h1>Stay Strong</h1>
+    <img src="foto4.jpg" class="image">
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide" id="s7">
+    <h1>You Are strong</h1>
+    <img src="foto5.jpg" class="image">
+</div>
+
+<!-- SLIDE 8 — VIDEO BARU -->
+<div class="slide" id="s8">
+    <h1>Never Give Up</h1>
+    <p>You are stronger than you think.</p>
+
+    <video class="video-box" controls>
+        <source src="video2.mp4" type="video/mp4">
+    </video>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide" id="s9">
+    <h1>Keep Shining</h1>
+    <img src="foto7.jpg" class="image">
+</div>
+
+<!-- SLIDE 10 -->
+<div class="slide" id="s10">
+    <h1>Kadonya tunggu sekalian pas pulkam yachh</h1>
+    <img src="foto8.jpg" class="image">
+</div>
+
+<script>
+let currentSlide = 1;
+
+// AUTO-SLIDE (stop saat video play)
+setInterval(() => {
+    let video1 = document.querySelector("#s5 video");
+    let video2 = document.querySelector("#s8 video");
+
+    if ((video1 && !video1.paused) || (video2 && !video2.paused)) return;
+
+    goToSlide(currentSlide + 1);
+}, 6000);
+
+function goToSlide(num) {
+    if (num > 10) num = 1;
+    document.querySelector(".active").classList.remove("active");
+    document.getElementById("s" + num).classList.add("active");
+    currentSlide = num;
+}
+
+/* PASSWORD */
+function checkPassword() {
+    let input = document.getElementById("passwordInput").value;
+    if (input === "11122004") {
+        document.getElementById("passwordScreen").style.display = "none";
+        document.getElementById("bgmusic").play();
+    } else {
+        alert("Password salah!");
+    }
+}
+
+/* MUSIC CONTROL */
+function toggleMusic() {
+    let music = document.getElementById("bgmusic");
+    if (music.paused) music.play();
+    else music.pause();
+}
+</script>
+
+</body>
+</html>
